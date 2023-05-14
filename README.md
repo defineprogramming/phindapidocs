@@ -1,6 +1,6 @@
 # Unofficial Phind API Documentation
 With help from reverse engineering and Chrome Dev Tools.
-### EDUCATIONAL PURPOSES ONLY.
+### DISCLAIMER: EDUCATIONAL PURPOSES ONLY. THIS DOCUMENTATION MAY BE INCORRECT, OUTDATED, OR MISSING FEATUEES. SOME ASPECTS ARE UNCONFIRMED - LIKE REQUEST OPTION PARAMETERS. 
 
 Phind is an AI service that provides natural language responses to user questions and prompts. It has a low powered model rewrite user prompts and then uses search results to generate an answer with GPT-4.
 
