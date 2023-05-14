@@ -15,7 +15,9 @@ Search the web based on a user's question or prompt.
 **Method:** POST
 
 **Request Body:**  json
-``` {
+```
+
+ {
 
    "q": "String query", 
 
@@ -125,7 +127,8 @@ Search the web based on a user's question or prompt.
 
    }
 
- ]```
+ ]
+```
 
 ### /api/db/cache
 
@@ -134,6 +137,7 @@ Cache data in the Phind database. Used internally.
 **Method:** POST
 
 **Request Body:** json
+```
 
  {
 
@@ -178,9 +182,13 @@ Generate an answer from the Phind AI model using web search results.
    }
 
  } 
+```
 
-**Response:**  data: String generated response
+**Response:**  
+```
 
+data: String generated response, by word (10 word output = 10x data: word lines)
+```
 ### /api/infer/followup/answer
 
 Generate a follow up answer from the Phind AI model using web search results and conversation context.
@@ -188,6 +196,7 @@ Generate a follow up answer from the Phind AI model using web search results and
 **Method:** POST 
 
 **Request Body:**  json
+```
 
  {
 
@@ -218,6 +227,7 @@ Generate a follow up answer from the Phind AI model using web search results and
    }
 
  }
+```
 
 **Response:**
 
@@ -230,6 +240,7 @@ Have the Phind AI model rewrite a user's follow up question using conversation c
 **Method:** POST
 
 **Request Body:** json 
+```
 
  {
 
@@ -240,13 +251,16 @@ Have the Phind AI model rewrite a user's follow up question using conversation c
    "answerHistory": ["String previous answers"]  
 
  }
+```
 
 **Response:** json
+```
 
  {
 
    "query": "String rewritten query" 
 
  }
+```
 
-I hope this helps you in using the Phind API! Let me know if you have any other questions.
+
