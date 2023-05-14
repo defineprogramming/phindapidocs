@@ -15,13 +15,13 @@ Search the web based on a user's question or prompt.
 **Method:** POST
 
 **Request Body:**  json
-` {
+``` {
 
    "q": "String query", 
 
    "browserLanguage": "String language code" 
 
- }`
+ }``
 
 **Response:**  json
 
