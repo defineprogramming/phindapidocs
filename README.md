@@ -21,11 +21,11 @@ Search the web based on a user's question or prompt.
 
    "browserLanguage": "String language code" 
 
- }``
+ }```
 
 **Response:**  json
 
- `[
+``` [
 
    {
 
@@ -125,7 +125,7 @@ Search the web based on a user's question or prompt.
 
    }
 
- ]
+ ]```
 
 ### /api/db/cache
 
