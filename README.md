@@ -1,9 +1,12 @@
 # Unofficial Phind API Documentation
-v1.0, last updated 15/05/2023 18:19 BST
+v1.0.1, last updated 15/05/2023 18:22 BST
 
 ## Disclaimer
 
 This documentation is for educational purposes only. It may be incorrect, outdated, or be missing features. Some aspects are unconfirmed, such as the request option parameters.
+
+### Got any feedback or want to add to the docs?
+That's great! Please create a pull request. Thank you :)
 
 ## What is Phind?
 
