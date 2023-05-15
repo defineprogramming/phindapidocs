@@ -1,4 +1,5 @@
 # Unofficial Phind API Documentation
+v1.0, last updated 15/05/2023 18:19 BST
 
 ## Disclaimer
 
