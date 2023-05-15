@@ -1,5 +1,3 @@
-Sure, here is the rewritten Github README in proper markdown:
-
 # Unofficial Phind API Documentation
 
 ## Disclaimer
