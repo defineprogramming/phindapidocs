@@ -2,7 +2,7 @@
 
 ## Disclaimer
 
-This documentation is for educational purposes only. It may be incorrect, outdated, or missing features. Some aspects are unconfirmed, such as the request option parameters.
+This documentation is for educational purposes only. It may be incorrect, outdated, or be missing features. Some aspects are unconfirmed, such as the request option parameters.
 
 ## What is Phind?
 
