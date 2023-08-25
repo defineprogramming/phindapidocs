@@ -1,5 +1,5 @@
 # Unofficial Phind API Documentation
-THIS DOCUMENTATION IS BEING REDONE! I'm working on v2. I believe a lot if this is now out of date so take it with a grain of salt until I release the next version.
+THIS DOCUMENTATION IS BEING REDONE! I'm working on v2. I believe a lot if this is now out of date so take it with a grain of salt until I release the next version. Bleeding edge changes will be committed to the latest branch in case you want to have a peek at what I'm doing.
 
 ## Disclaimer
 
