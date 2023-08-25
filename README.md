@@ -1,5 +1,5 @@
 # Unofficial Phind API Documentation
-v1.0.1, last updated 15/05/2023 18:22 BST
+THIS DOCUMENTATION IS BEING REDONE! I'm working on v2. I believe a lot if this is now out of date so take it with a grain of salt until I release the next version.
 
 ## Disclaimer
 
