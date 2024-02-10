@@ -1,169 +1,119 @@
-# Unofficial Phind API Documentation
-THIS DOCUMENTATION IS BEING REDONE! I'm working on v2. I believe a lot if this is now out of date so take it with a grain of salt until I release the next version. Bleeding edge changes will be committed to the latest branch in case you want to have a peek at what I'm doing.
+# Phind API Reference
+ 
+ ## Overview
+ 
+ Phind is an AI answer engine that provides users with the ability to interact with an AI model to get answers, assistance with queries, and engage in chat conversations. This API reference details the endpoints available for interacting with Phind's services.
 
-## Disclaimer
+ ### This is not finished and subject to change
+ 
+ You might notice that this doc looks a little barebones - I'm working on properly reverse enginering their backend. For now, this is what you get (the old docs were out of date and a lot had changed!).
 
-This documentation is for educational purposes only. It may be incorrect, outdated, or be missing features. Some aspects are unconfirmed, such as the request option parameters.
-
-### Got any feedback or want to add to the docs?
-That's great! Please create a pull request. Thank you :)
-
-## What is Phind?
-
-Phind is an AI service that provides natural language responses to user questions and prompts. It has a low-powered model that rewrites user prompts and then uses search results to generate an answer with GPT-4, the higher powered model used when 'Use Best Model' is checked. This documentation does not cover intermediate mode, which is presumed to use `gpt-3.5-turbo` or `text-davinci-003`.
-
-## Base URL
-
-```
-http://phind.com/api
-```
-
-## API Endpoints
-
-### /api/web/search
-
-Search the web based on a user's question or prompt.
-
-**Method:** POST
-
-**Request Body:** JSON
-
-```
-{
-  "q": "String query",
-  "browserLanguage": "String language code"
-}
-```
-
-**Response:** JSON
-
-```
-[
-  {
-    "title": "String title",
-    "url": "String url",
-    "is_source_local": Boolean,
-    "is_source_both": Boolean,
-    "description": "String description",
-    "profile": {
-      "name": "String name",
-      "url": "String url",
-      "long_name": "String long name",
-      "img": "String image url"
-    },
-    "language": "String language code",
-    "family_friendly": Boolean,
-    "type": "String type",
-    "subtype": "String subtype",
-    "meta_url": {
-      "scheme": "String scheme",
-      "netloc": "String netloc",
-      "hostname": "String hostname",
-      "favicon": "String favicon url",
-      "path": "String path"
-    },
-    "thumbnail": {
-      "src": "String thumbnail url",
-      "original": "String original thumbnail url",
-      "logo": Boolean
-    },
-    "age": "String published date",
-    "article": {
-      "author": [
-        {
-          "type": "String type",
-          "name": "String name",
-          "url": "String url"
-        }
-      ],
-      "date": "String published date",
-      "publisher": {
-        "type": "String type",
-        "name": "String name",
-        "url": "String url",
-        "thumbnail": {
-          "src": "String publisher logo url",
-          "original": "String original publisher logo url"
-        }
-      }
-    }
-  }
-]
-```
-
-### /api/db/cache
-
-Cache data in the Phind database. Used internally.
-
-**Method:** POST
-
-**Request Body:** JSON
-
-```
-{
-  "key": "String key",
-  "value": "String value"
-}
-```
-
-**Response:** No response
-
-### /api/infer/answer
-
-Generate an answer from the Phind AI model using web search results.
-
-**Method:** POST
-
-**Request Body:** JSON
-
-```
-{
-  "question": "String question",
-  "webResults": [web search response],
-  "options": {
-    "temperature": Float,
-    "max_tokens": Integer,
-    "top_p": Float,
-    "repetition_penalty": Float,
-    "presence_penalty": Float,
-    "frequency_penalty": Float,
-    "curiosity_bonus": Float
-  }
-}
-```
-
-**Response:**
-
-```
-data: String generated response, by word (10 word output = 10x data: word lines)
-```
-
-### /api/infer/followup/answer
-
-Generate a follow-up answer from the Phind AI model using web search results and conversation context.
-
-**Method:** POST
-
-**Request Body:** JSON
-
-```
-{
-  "question": "String question",
-  "questionHistory": ["String previous questions"],
-  "answerHistory": ["String previous answers"],
-  "webResults": [web search response],
-  "options": {
-    "temperature": Float,
-    "max_tokens": Integer,
-    "top_p": Float,
-    "repetition_penalty": Float,
-    "presence_penalty": Float,
-    "frequency_penalty": Float,
-    "curiosity_bonus": Float
-  }
-}
-```
-
-**Response:**
-
-Same as /api/infer/answer
+ 
+ ## Authentication
+ 
+ ### Get Session
+ 
+ - **Endpoint:** `GET /api/auth/session`
+ - **Description:** Retrieves the current session information for the user.
+ - **Headers:**
+   - `Accept`: `*/*`
+   - `Accept-Encoding`: `gzip, deflate, br`
+   - `Accept-Language`: Language preferences (e.g., `en-GB,en;q=0.9,en-US;q=0.8`)
+ - **Query Parameters:**
+   - None.
+ - **Response:**
+   - **Status Code:** `304 Not Modified` (if session is unchanged) or `200 OK` (if a new session is created).
+   - **Content-Type:** `application/json`
+   - **Body:** An empty JSON object `{}` or session details.
+ 
+ ## Querying
+ 
+ ### Make a Query
+ 
+ - **Endpoint:** `POST https://https.api.phind.com/infer/`
+ - **Description:** Submits a user's question to the AI model and receives an answer.
+ - **Headers:**
+   - `Content-Type`: `application/json;charset=UTF-8`
+   - `Origin`: `https://www.phind.com`
+ - **Payload:**
+   - `question`: The user's query.
+   - `options`: Various options for customizing the query (e.g., `date`, `language`, `detailed`, etc.).
+   - `context`: Optional context for the question.
+   - `challenge`: A numeric value included for anti-fraud or verification purposes.
+ - **Response:**
+   - **Status Code:** `200 OK`
+   - **Content-Type:** `text/event-stream; charset=utf-8`
+   - **Body:** A stream of events containing the AI's responses and follow-up prompts.
+ 
+ ### Cache Query Result
+ 
+ - **Endpoint:** `POST /api/db/cache`
+ - **Description:** Stores the results of a query in cache.
+ - **Headers:**
+   - `Content-Type`: `application/json;charset=UTF-8`
+   - `Origin`: `https://www.phind.com`
+ - **Payload:**
+   - `title`: The title of the query.
+   - `value`: An array containing the query and its result.
+   - `challenge`: A numeric value for verification.
+ - **Response:**
+   - **Status Code:** `200 OK`
+   - **Content-Type:** `application/json; charset=utf-8`
+   - **Body:** A JSON object containing a `request_id`.
+ 
+ ## Chat
+ 
+ ### Preflight Request
+ 
+ - **Endpoint:** `OPTIONS https://https.api.phind.com/agent/`
+ - **Description:** A preflight request for CORS that precedes the actual request to the chat endpoint.
+ - **Headers:**
+   - `Access-Control-Request-Headers`: `content-type`
+   - `Access-Control-Request-Method`: `POST`
+   - `Origin`: `https://www.phind.com`
+ - **Response:**
+   - **Status Code:** `200 OK`
+   - **Content-Type:** `text/plain; charset=utf-8`
+   - **Headers:** Appropriate CORS headers.
+ 
+ ### Send Chat Message
+ 
+ - **Endpoint:** `POST https://https.api.phind.com/agent/`
+ - **Description:** Sends a message to the AI chat agent and receives a response.
+ - **Headers:**
+   - `Content-Type`: `application/json;charset=UTF-8`
+   - `Origin`: `https://www.phind.com`
+ - **Payload:**
+   - `user_input`: The user's chat message.
+   - `message_history`: An array of previous messages in the conversation.
+   - `requested_model`: The AI model being used for the chat.
+   - `anon_user_id`: An anonymous identifier for the user.
+   - `challenge`: A numeric value for verification.
+ - **Response:**
+   - **Status Code:** `200 OK`
+   - **Content-Type:** `text/event-stream; charset=utf-8`
+   - **Body:** A stream of events containing the chat agent's responses.
+ 
+ ### Store Chat Message
+ 
+ - **Endpoint:** `POST /api/db/chat`
+ - **Description:** Stores a chat message in the database.
+ - **Headers:**
+   - `Content-Type`: `application/json;charset=UTF-8`
+   - `Origin`: `https://www.phind.com`
+ - **Payload:**
+   - `title`: The title or subject of the chat.
+   - `messages`: An array of message objects with `role`, `content`, and `metadata`.
+   - `challenge`: A numeric value for verification.
+ - **Response:**
+   - **Status Code:** `200 OK`
+   - **Content-Type:** `application/json; charset=utf-8`
+   - **Body:** A JSON object with details about the stored chat, including an `id`.
+ 
+ ## Notes
+ 
+ - All endpoints are served over HTTPS and require proper headers to be set for CORS and content type.
+ - The `challenge` field in requests is used for security purposes and may be part of anti-fraud measures.
+ - Responses, especially those involving AI interactions, are returned as streams of events and may require special handling to process.
+ - The exact request content and responses will differ per user and context.
+ - This API Reference is based on observed requests and responses and is unofficial.
